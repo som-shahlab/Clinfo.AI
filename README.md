@@ -1,5 +1,6 @@
  ![logo](images/clinfo_ai.png)
-
+ 
+ Welcome to our demo for Clinfo.ai, if you woud like to see some functionality or have a comment, open an issue on this repo.
 
 **Demo:** https://clinfo-demo.herokuapp.com/login
 
@@ -46,7 +47,6 @@ Questions that would need to reference EHR or patient information: Clinfo.ai can
 
 1. We plan to relase Clinfo.AI once we complete preliminary testing. 
 2. While anyone can use Clinfo.AI, our goal is to augment medical experts not replace them. Read our disclaimer [disclaimer](https://clinfo-demo.herokuapp.com/termsandconditions) and DO NOT use clinfo.AI for diagnosis.
-3. If you woud like to see some functionality or have a comment, open an issue on this repo.
 
 
 
