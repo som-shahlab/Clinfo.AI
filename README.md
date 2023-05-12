@@ -8,6 +8,13 @@ Every year, a minimum of 1.8 million new medical articles are published. In the 
 
 Clinfo.AI **searches**and **synthesis** medical literature tailored to  **specific** clinical **question**. By analyzing the context of the inquiry, it identifies and presents the most relevant articles. 
 
-Here is a comparison of Clinfo.AI vs ChatGPT:
+### Comparison of Clinfo.AI vs ChatGPT:
 ![comparison](images/comparison.png)
+
+
+### How it works?
+
+![diagram](images/diagram.png)
+
+
 
