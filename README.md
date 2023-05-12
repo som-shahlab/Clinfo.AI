@@ -1,7 +1,7 @@
  ![logo](images/clinfo_ai.png)
 
 
-Demo: https://clinfo-demo.herokuapp.com/login
+**Demo:** https://clinfo-demo.herokuapp.com/login
 
 Millions of medical research articles are published every year. Healthcare professionals are expected to know the latest research. However, with limited time and a broad field to cover, keeping up-to-date can be a challenging task.
 
