@@ -5,7 +5,7 @@ Demo: https://clinfo-demo.herokuapp.com/login
 
 Millions of medical research articles are published every year. Healthcare professionals are expected to know the latest research. However, with limited time and a broad field to cover, keeping up-to-date can be a challenging task.
 
-Clinfo.AI **searches**and **synthesizes** medical literature tailored to a **specific** clinical **question**. By analyzing the context of the inquiry, it identifies and presents the most relevant articles. 
+Clinfo.AI **searches** and **synthesizes** medical literature tailored to a **specific** clinical **question**. By analyzing the context of the inquiry, it identifies and presents the most relevant articles. 
 
 ## Comparison of Clinfo.AI vs ChatGPT:
 ![comparison](images/comparison.png)
