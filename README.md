@@ -43,6 +43,11 @@ Questions that would need to reference EHR or patient information: Clinfo.ai can
 
 
 
+
+#### HOW to add my own custom prompts?
+
+
+
 ### IMPORTANT:
 
 1. We plan to relase Clinfo.AI once we complete preliminary testing. 
