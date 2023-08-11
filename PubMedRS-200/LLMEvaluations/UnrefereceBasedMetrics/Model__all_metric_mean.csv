@@ -1,0 +1,14 @@
+Model,bertscore,rouge-L,meteor,chrf,google_bleu,character,exact_match,CTC_summary
+gpt3.5,0.781,0.165,0.181,30.208,0.077,0.912,0,0.575
+gpt4,0.78,0.157,0.192,31.612,0.074,0.89,0,0.571
+clinfo_pubmed_LimitedSearch_ExludePMID,0.77,0.135,0.121,21.537,0.058,0.993,0,0.527
+clinfo_pubmed_LimitedSearch_ExludePMID_synthesis,0.773,0.141,0.133,24.303,0.063,0.976,0,0.533
+clinfo_pubmed_LimitedSearch_ExludePMID_TLDR,0.784,0.145,0.221,32.673,0.061,0.833,0,0.594
+clinfo_pubmed_ExludePMID,0.773,0.136,0.119,21.436,0.057,0.989,0,0.53
+clinfo_pubmed_ExludePMID_synthesis,0.775,0.143,0.132,24.113,0.061,0.976,0,0.536
+clinfo_pubmed_ExludePMID_TLDR,0.787,0.148,0.218,32.97,0.06,0.83,0,0.6
+clinfo_pubmed,0.786,0.167,0.145,23.5,0.079,0.989,0,0.546
+clinfo_pubmed_synthesis,0.789,0.178,0.164,26.74,0.088,0.975,0,0.555
+clinfo_pubmed_TLDR,0.793,0.169,0.252,35.459,0.076,0.825,0,0.61
+elicit,0.807,0.218,0.206,31.55,0.127,0.938,0,0.596
+statpearl,0.77,0.136,0.149,26.507,0.062,0.939,0,0.536

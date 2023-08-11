@@ -1,0 +1,14 @@
+Model,coherence,consistency,fluency,relevance,overall,Comet,CTC,Average Length
+gpt3.5,0.149,0.144,0.059,0.140,0.088,0.075,0.017,47.778
+gpt4,0.099,0.145,0.051,0.091,0.063,0.075,0.017,39.772
+clinfo_pubmed_LimitedSearch_ExludePMID,0.065,0.105,0.104,0.065,0.055,0.055,0.014,46.181
+clinfo_pubmed_LimitedSearch_ExludePMID_synthesis,0.066,0.110,0.119,0.067,0.059,0.057,0.015,40.749
+clinfo_pubmed_LimitedSearch_ExludePMID_TLDR,0.143,0.161,0.018,0.151,0.098,0.078,0.018,11.682
+clinfo_pubmed_ExludePMID,0.092,0.104,0.085,0.037,0.050,0.056,0.014,38.394
+clinfo_pubmed_ExludePMID_synthesis,0.083,0.112,0.096,0.035,0.051,0.059,0.016,33.221
+clinfo_pubmed_ExludePMID_TLDR,0.202,0.197,0.029,0.190,0.128,0.078,0.017,10.726
+clinfo_pubmed,0.064,0.127,0.085,0.024,0.048,0.055,0.017,44.173
+clinfo_pubmed_synthesis,0.092,0.142,0.098,0.053,0.057,0.057,0.019,38.492
+clinfo_pubmed_TLDR,0.123,0.159,0.012,0.119,0.078,0.072,0.016,11.754
+elicit,0.136,0.147,0.151,0.130,0.087,0.066,0.017,22.946
+statpearl,0.225,0.129,0.053,0.176,0.115,0.075,0.016,26.603
