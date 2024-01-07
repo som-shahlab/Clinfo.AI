@@ -1,0 +1,12 @@
+{
+    "input_variables": [
+        "question",
+        "article_text"
+    ],
+    "output_parser": null,
+    "partial_variables": {},
+    "template": "Does the article whose abstract is shown below potentially contain information that could be relevant to the following \nclinical question: \"{question}\"? \nAbstract: \"\"\"{article_text}\"\"\" \n\nAnswer must be either yes or no\n",
+    "template_format": "f-string",
+    "validate_template": true,
+    "_type": "prompt"
+}
