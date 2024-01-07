@@ -1,0 +1,20 @@
+name: clinfo
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.9.16
+  - biopython==1.81
+  - openai==0.27.4
+  - flask==2.2.3
+  - flask-socketio==5.3.3
+  - flask-login==0.6.2
+  - Flask-Session==0.4.0
+  - gunicorn==20.1.0
+  - eventlet==0.30.2
+  - langchain==0.0.142
+  - pip
+  - pip:
+    - rank_bm25==0.2.2
+
+  #- sentence-transformers==2.2.2  # Uncomment this line if you need sentence-transformers

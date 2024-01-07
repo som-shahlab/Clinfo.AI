@@ -1,0 +1,9 @@
+{
+    "input_variables": [],
+    "output_parser": null,
+    "partial_variables": {},
+    "template": "You are a helpful assistant that converts clinical questions into PubMed search queries that can be used to find relevant answers to those questions.",
+    "template_format": "f-string",
+    "validate_template": true,
+    "_type": "prompt"
+}
