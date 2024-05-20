@@ -2,6 +2,7 @@
  
  Welcome to our demo for Clinfo.ai, if you woud like to see some functionality or have a comment, open an issue on this repo.
 
+**Paper:** https://arxiv.org/abs/2310.16146
 **Demo:** https://clinfo-demo.herokuapp.com/login
 
 Millions of medical research articles are published every year. Healthcare professionals are expected to know the latest research. However, with limited time and a broad field to cover, keeping up-to-date can be a challenging task.
@@ -55,6 +56,20 @@ Questions that would need to reference EHR or patient information: Clinfo.ai can
 
 
 
+### Cite
+If you use Clinfo.ai, please consider citing:
+
+```
+@inproceedings{lozano2023clinfo,
+  title={Clinfo. ai: An open-source retrieval-augmented large language model system for answering medical questions using scientific literature},
+  author={Lozano, Alejandro and Fleming, Scott L and Chiang, Chia-Chun and Shah, Nigam},
+  booktitle={PACIFIC SYMPOSIUM ON BIOCOMPUTING 2024},
+  pages={8--23},
+  year={2023},
+  organization={World Scientific}
+}
+
+```
 
 
 
