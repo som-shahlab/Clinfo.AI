@@ -52,13 +52,29 @@ Create an [OpenAI](https://openai.com/index/openai-api/) account, get an API Key
 ### NCBI API:
 Clinfo.ai retrieves literature using the NCBI API; while access does not require an account, calls are limited for unregistered users. We recommend creating an [NCBI](https://www.ncbi.nlm.nih.gov/home/develop/api/) account. Once generated, save the NCBI API key and email under `NCBI_API_KEY` and `EMAIL`, respectively.
 
-
-Go to config.py and edit the following fields:
+In summary edit the following variables inside config.py:
 ```python
 OPENAI_API_KEY = "YOUR API TOKEN"
 NCBI_API_KEY   = "YOUR API TOKEN"  (optional)
 EMAIL          = "YOUR EMAIL"      (optional)
 ```
+
+## Using Clinfo:
+
+```python
+from clinfoAI import ClinfoAI
+from config  import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
+os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
+
+question = "What is the prevalence of COVID-19 in the United States?"
+clinfo   = ClinfoAI(openai_key=OPENAI_API_KEY, email= EMAIL)
+answer   = clinfo.forward(question=question)         
+```
+
+
+```src/notebooks/01_UsingClinfoAI.ipynb``` has a quick runthrough using each individaul compent of clinfo.AI
+
+
 
 
 #### HOW to add my own custom prompts?
