@@ -80,14 +80,12 @@ answer   = clinfo.forward(question=question)
 
 
 
-#### HOW to add my own custom prompts?
+
 
 
 
 ### IMPORTANT:
-
-1. We plan to relase Clinfo.AI once we complete preliminary testing. 
-2. While anyone can use Clinfo.AI, our goal is to augment medical experts not replace them. Read our disclaimer [disclaimer](https://clinfo-demo.herokuapp.com/termsandconditions) and DO NOT use clinfo.AI for diagnosis.
+While anyone can use Clinfo.AI, our goal is to augment medical experts not replace them. Read our disclaimer [disclaimer](https://clinfo-demo.herokuapp.com/termsandconditions) and DO NOT use clinfo.AI for diagnosis.
 
 
 
