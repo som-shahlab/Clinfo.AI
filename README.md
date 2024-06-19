@@ -46,10 +46,10 @@ Questions that would need to reference EHR or patient information: Clinfo.ai can
 
 ## How can leverage Clinfo.ai using OpenAI models?
 
-### OPENAI API:
+#### OPENAI API:
 Create an [OpenAI](https://openai.com/index/openai-api/) account, get an API Key, and edit the key field `OPENAI_API_KEY` in `config.py` with your own key. 
 
-### NCBI API:
+#### NCBI API:
 Clinfo.ai retrieves literature using the NCBI API; while access does not require an account, calls are limited for unregistered users. We recommend creating an [NCBI](https://www.ncbi.nlm.nih.gov/home/develop/api/) account. Once generated, save the NCBI API key and email under `NCBI_API_KEY` and `EMAIL`, respectively.
 
 In summary edit the following variables inside config.py:
@@ -59,7 +59,7 @@ NCBI_API_KEY   = "YOUR API TOKEN"  (optional)
 EMAIL          = "YOUR EMAIL"      (optional)
 ```
 
-## Using Clinfo:
+#### Using Clinfo.AI:
 
 ```python
 from clinfoAI import ClinfoAI
@@ -72,7 +72,10 @@ answer   = clinfo.forward(question=question)
 ```
 
 
-```src/notebooks/01_UsingClinfoAI.ipynb``` has a quick runthrough using each individaul compent of clinfo.AI
+```src/notebooks/01_UsingClinfoAI.ipynb``` has a quick run-through and explanation for  each individaul  clinfo.AI component.
+
+
+## How can leverage Clinfo.ai using Open Source models via VLLM?
 
 
 
