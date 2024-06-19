@@ -76,6 +76,10 @@ answer   = clinfo.forward(question=question)
 
 
 ## How can leverage Clinfo.ai using Open Source models via VLLM?
+First, use VLLM to create an API selecting the model you want to work with:
+```bash
+ python -m vllm.entrypoints.openai.api_server     --model Qwen/Qwen2-beta-7B-Chat
+```
 
 
 
