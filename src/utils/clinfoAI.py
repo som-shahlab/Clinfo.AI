@@ -9,8 +9,15 @@ from utils.bm25              import bm25_ranked
 
 
 class ClinfoAI:
-    def __init__(self,openai_key, email,engine="SemanticScholar",verbose=False) -> None:
+    def __init__(self,
+        openai_key:str, 
+        email:str,
+        llm:str= "gpt-3.5-turbo",
+        engine:str="SemanticScholar",
+        verbose:str=False) -> None:
+
         self.engine             = engine
+        self.llm                = llm 
         self.email              = email
         self.openai_key         = openai_key
         self.verbose            = verbose
@@ -20,12 +27,22 @@ class ClinfoAI:
     def init_engine(self):
         if self.engine  == "PubMed":
             ARCHITECTURE_PATH = Path('../prompts/PubMed/Architecture_3/master.json')
-            self.NEURAL_RETRIVER   = Neural_Retriever_PubMed(architecture_path=ARCHITECTURE_PATH ,verbose=False,debug=False,open_ai_key=self.openai_key,email=self.email)
+            self.NEURAL_RETRIVER   = Neural_Retriever_PubMed(
+                architecture_path=ARCHITECTURE_PATH ,
+                verbose=False,
+                debug=False,
+                open_ai_key=self.openai_key,
+                email=self.email)
             print("PubMed Retriever Initialized")
 
         elif self.engine  == "SemanticScholar":
             ARCHITECTURE_PATH    = Path('../prompts/SemanticScholar/Architecture_3/master.json')
-            self.NEURAL_RETRIVER      = Neural_Retriever_Semantic_Scholar(architecture_path=ARCHITECTURE_PATH ,verbose=True,debug=False,open_ai_key=self.openai_key,email=self.email)
+            self.NEURAL_RETRIVER      = Neural_Retriever_Semantic_Scholar(
+                architecture_path=ARCHITECTURE_PATH ,
+                verbose=True,
+                debug=False,
+                open_ai_key=self.openai_key,
+                email=self.email)
         else:
             raise Exception("Invalid Engine")
 
@@ -37,10 +54,9 @@ class ClinfoAI:
         try:
             if self.engine  == "PubMed":
                 queries, article_ids = self.NEURAL_RETRIVER.search_pubmed(question             = question,
-                                                                            num_results        = 16,
-                                                                            num_query_attempts = 3,
-                                                                            restriction_date   = restriction_date) 
-                
+                                                                          num_results        = 16,
+                                                                          num_query_attempts = 3,
+                                                                          restriction_date   = restriction_date) 
 
             elif self.engine  == "SemanticScholar":
                 query        = self.NEURAL_RETRIVER.generate_semantic_query(question=question)
