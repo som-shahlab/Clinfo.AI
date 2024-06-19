@@ -63,7 +63,7 @@ EMAIL          = "YOUR EMAIL"      (optional)
 
 ```python
 from clinfoAI import ClinfoAI
-from config  import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
+from config   import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 question = "What is the prevalence of COVID-19 in the United States?"
