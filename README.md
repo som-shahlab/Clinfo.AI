@@ -26,7 +26,7 @@ Questions based on scientific evidence reported in the literature
 
 
 ## Type of questions you can’t answer with clinfo.AI
-Broad questions: These types of questions could potentially be answered by clinfo.AI, but it is highly probable you won’t get what you are looking for. How to correct this type of question? Provide context.
+**Broad questions:** These types of questions could potentially be answered by clinfo.AI, but it is highly probable you won’t get what you are looking for. How to correct this type of question? Provide context.
 
 Example
 Original Query: "Chest pain pediatrics"
@@ -43,6 +43,22 @@ Questions that would need to reference EHR or patient information: Clinfo.ai can
 ![diagram](images/diagram.png)
 
 
+
+## How can leverage Clinfo.ai using OpenAI models?
+
+### OPENAI API:
+Create an [OpenAI](https://openai.com/index/openai-api/) account, get an API Key, and edit the key field `OPENAI_API_KEY` in `config.py` with your own key. 
+
+### NCBI API:
+Clinfo.ai retrieves literature using the NCBI API; while access does not require an account, calls are limited for unregistered users. We recommend creating an [NCBI](https://www.ncbi.nlm.nih.gov/home/develop/api/) account. Once generated, save the NCBI API key and email under `NCBI_API_KEY` and `EMAIL`, respectively.
+
+
+Go to config.py and edit the following fields:
+```python
+OPENAI_API_KEY = "YOUR API TOKEN"
+NCBI_API_KEY   = "YOUR API TOKEN"  (optional)
+EMAIL          = "YOUR EMAIL"      (optional)
+```
 
 
 #### HOW to add my own custom prompts?
