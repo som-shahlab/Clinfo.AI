@@ -36,10 +36,10 @@ pubmed_queries, article_ids = nrpm.search_pubmed(
 articles:list[dict] = nrpm.fetch_article_data(article_ids)
 
 ## STEP 3 Summarize each article (only if they are relevant [Step 3]) ###
-article_summaries,irrelevant_articles =  nrpm.summarize_each_article(articles, question)
+article_summaries,irrelevant_articles =  nrpm.summarize_each_article(articles, QUESTION)
 
 ### STEP 4: Synthesize the results ###
-synthesis =   nrpm.synthesize_all_articles(article_summaries, question)
+synthesis =   nrpm.synthesize_all_articles(article_summaries, QUESTION)
 
 #synthesis, article_summaries, irrelevant_articles, articles, article_ids, pubmed_queries,
 print(synthesis)

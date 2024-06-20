@@ -1,0 +1,12 @@
+{
+    "input_variables": [
+        "question",
+        "article_summaries_str"
+    ],
+    "output_parser": null,
+    "partial_variables": {},
+    "template": "Below is a list of article summaries and their citations. Using ONLY the articles provided and no other articles, synthesize the information into a single paragraph summary, making sure you do not mix facts from different articles. Cite the articles in-line appropriately using the number provided at the begining of each item defined as [n]. Focus the summary on findings from studies with the strongest level of evidence (large sample size, strong study design, low risk of bias, etc).Using this summary, provide a one-line TL;DR answer to the following question, hedging appropriately given the strength of the evidence:\n\nQuestion: \"{question}\"\n\nArticle summaries:\n\"\"\"{article_summaries_str}\"\"\"\n\nDesired format:\nLiterature Summary: <summary_of_evidence>\n\nTL;DR: <answer_to_question>",
+    "template_format": "f-string",
+    "validate_template": true,
+    "_type": "prompt"
+}

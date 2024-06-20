@@ -1,10 +1,11 @@
 import sys
 import os 
-sys.path.append('..')
+from  pathlib import  Path
+sys.path.append(str(Path(__file__).resolve().parent))
 from  pathlib  import  Path
-from  utils.pubmed_utils     import Neural_Retriever_PubMed
-from  utils.semantic_utils   import Neural_Retriever_Semantic_Scholar
-from utils.bm25              import bm25_ranked
+from  src.clinfoai.pubmed_engine          import PubMedNeuralRetriever
+from  src.clinfoai.semanticscholar_engine import SemanticScholarNeuralRetriever
+from  src.clinfoai.bm25                   import bm25_ranked
 
 
 
@@ -12,8 +13,9 @@ class ClinfoAI:
     def __init__(self,
         openai_key:str, 
         email:str,
+        architecture_path,
         llm:str= "gpt-3.5-turbo",
-        engine:str="SemanticScholar",
+        engine:str="PubMed",
         verbose:str=False) -> None:
 
         self.engine             = engine
@@ -21,34 +23,32 @@ class ClinfoAI:
         self.email              = email
         self.openai_key         = openai_key
         self.verbose            = verbose
-        self.architecture_path  = self.init_engine()
-
+        self.architecture_path  = architecture_path
+        self.init_engine()
     def init_engine(self):
         if self.engine  == "PubMed":
-            ARCHITECTURE_PATH      = Path('../prompts/PubMed/Architecture_1/master.json')
-            self.NEURAL_RETRIVER   = Neural_Retriever_PubMed(
-                                        architecture_path=ARCHITECTURE_PATH,
+        
+            self.NEURAL_RETRIVER   = PubMedNeuralRetriever(
+                                        architecture_path=self.architecture_path,
                                         model       = self.llm,
-                                        verbose     = False,
+                                        verbose     = self.verbose ,
                                         debug       = False,
                                         open_ai_key = self.openai_key,
                                         email       = self.email)
             print("PubMed Retriever Initialized")
 
         elif self.engine  == "SemanticScholar":
-            ARCHITECTURE_PATH    = Path('../prompts/SemanticScholar/Architecture_1/master.json')
-            self.NEURAL_RETRIVER = Neural_Retriever_Semantic_Scholar(
-                                        architecture_path=ARCHITECTURE_PATH ,
+            self.NEURAL_RETRIVER = SemanticScholarNeuralRetriever(
+                                        architecture_path=self.architecture_path,
                                         model       = self.llm, 
-                                        verbose=True,
+                                        verbose= self.verbose ,
                                         debug=False,
                                         open_ai_key=self.openai_key,
                                         email=self.email)
         else:
             raise Exception("Invalid Engine")
 
-        ARCHITECTURE_PATH_STR = str(ARCHITECTURE_PATH)
-        return   ARCHITECTURE_PATH_STR 
+        return "OK"
     
 
     def retrive_articles(self,question,restriction_date = None, ignore=None):
@@ -99,7 +99,7 @@ class ClinfoAI:
     
 
     def summarize_relevant(self,articles,question):
-        article_summaries,irrelevant_articles = self.NEURAL_RETRIVER.summarize_each_article(articles, question,prompt_dict={"type":"automatic"})
+        article_summaries,irrelevant_articles = self.NEURAL_RETRIVER.summarize_each_article(articles, question)
         return   article_summaries,irrelevant_articles 
     
 
@@ -110,19 +110,19 @@ class ClinfoAI:
                 corpus            = [article['abstract'] for article in article_summaries]
                 article_summaries = bm25_ranked(list_to_oganize= article_summaries,corpus =  corpus,query = question,n = 20)
 
-        synthesis = self.NEURAL_RETRIVER.synthesize_all_articles(article_summaries, question, prompt_dict={"type":"automatic"} ,with_url=with_url)
+        synthesis = self.NEURAL_RETRIVER.synthesize_all_articles(article_summaries, question ,with_url=with_url)
         return synthesis
 
 
-    def forward(self,question,restriction_date = None, ignore=None,return_articles=True):  
-        try:
-            articles,queries                              = self.retrive_articles(question,restriction_date , ignore)
-            article_summaries,irrelevant_articles  = self.summarize_relevant(articles=articles,question=question)
-            synthesis                              = self.synthesis_task(article_summaries, question)
-        except:
-            synthesis = "Internal Error"
-        
+    def forward(self,question,restriction_date = None, ignore=None,return_articles=True):         
+        articles,queries                       = self.retrive_articles(question,restriction_date , ignore)
+        article_summaries,irrelevant_articles  = self.summarize_relevant(articles=articles,question=question)
+        synthesis                              = self.synthesis_task(article_summaries, question)
+        out = dict()
+        out["synthesis"] = synthesis 
         if return_articles:
-            return synthesis , article_summaries, irrelevant_articles,queries
+            out["article_summaries"] = article_summaries 
+            out["irrelevant_articles"] = irrelevant_articles  
+            out["queries"] = queries              
         
-        return synthesis 
+        return out 

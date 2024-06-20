@@ -11,7 +11,8 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from Bio import Entrez
 from Bio.Entrez import efetch, esearch
 from langchain.prompts.chat import SystemMessagePromptTemplate
-from langchain.chat_models import ChatOpenAI
+#from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain.prompts import PromptTemplate, ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_core.messages.system import SystemMessage
 from vllm import LLM, SamplingParams
@@ -76,6 +77,7 @@ class PubMedNeuralRetriever:
         self.open_ai_key  = open_ai_key
         self.email        = email
         self.time_out     = 61
+        self.delay        = 2
         self.wait         = wait
     
         if self.verbose:
@@ -88,6 +90,7 @@ class PubMedNeuralRetriever:
             print("Trying to init model via VLM")
             self.api_base:str = api_base
             self.time_out     = None
+            self.delay        = None
             #self.llm        = VLM_LLM(model="facebook/opt-125m")
             #self.sampling_params = SamplingParams(temperature=0.8, top_p=0.95)
             #pdb.set_trace()
@@ -108,15 +111,13 @@ class PubMedNeuralRetriever:
                     model       = model,
                     max_tokens  = max_tokens,
                     n           = n,
-                    stop        = stop,
-                    request_timeout=delay)
+                    request_timeout= self.time_out )
         else:
             chat = ChatOpenAI(
                     temperature = temperature,
                     model       = model,
                     max_tokens  = max_tokens,
                     n           = n,
-                    stop        = stop,
                     request_timeout = delay,
                     openai_api_key  = "EMPTY",
                     openai_api_base = self.api_base)
@@ -124,8 +125,8 @@ class PubMedNeuralRetriever:
 
         response = chat(prompt)
 
-        if delay:
-            time.sleep(delay)
+        if self.delay:
+            time.sleep(self.delay)
 
         query:str = response.content   
         
@@ -208,7 +209,7 @@ class PubMedNeuralRetriever:
            search_queries: list[str]: A list of search queries used (with MESH terms)
            search_ids: list[str] A list containing the set of search IDs   
         """
-        verbose = True
+
         failure_cases = None
         Entrez.email   = self.email     
         search_ids     = set()
@@ -309,6 +310,7 @@ class PubMedNeuralRetriever:
             ### Make API CALL ###
             chat_prompt = ChatPromptTemplate.from_messages([system_message_prompt, human_message_prompt])
             chat_prompt = chat_prompt.format_prompt(question=question,article_text=article_text).to_messages()
+            
             result      = self.query_api(
                 model       = self.model ,
                 prompt      = chat_prompt,
@@ -539,9 +541,11 @@ class PubMedNeuralRetriever:
             abstract            = self.reconstruct_abstract(abstract)                    # Reconstruct the abstract
             article_is_relevant = self.is_article_relevant(abstract, question)           # (GPT) Determine if the article is relevant with gpt
             citation            = self.construct_citation(article)                       # Construct the AMA citation
-            print(citation)
-            print("~" * 10 + f"\n{abstract}")
-            print("~" * 10 + f"\nArticle is relevant? = {article_is_relevant}")
+            if  self.verbose:
+                print(citation)
+                print("~" * 10 + f"\n{abstract}")
+                print("~" * 10 + f"\nArticle is relevant? = {article_is_relevant}")
+            
             title = article["MedlineCitation"]["Article"]["ArticleTitle"]
             url   = (f"https://pubmed.ncbi.nlm.nih.gov/"
                     f"{article['MedlineCitation']['PMID']}/")

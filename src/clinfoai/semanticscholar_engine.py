@@ -32,7 +32,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate, ChatPromptTemplate, HumanMessagePromptTemplate
 
 ############ OPP version ############################
-class Neural_Retriever_Semantic_Scholar:
+class SemanticScholarNeuralRetriever:
     def __init__(self, architecture_path:str, temperature = 0.5, verbose:bool=True, debug:bool=False,open_ai_key:str=None,email:str=None):
         self.verbose      = verbose
         self.architecture = PromptArchitecture(architecture_path=architecture_path,verbose=verbose)
