@@ -43,7 +43,6 @@ Questions that would need to reference EHR or patient information: Clinfo.ai can
 ![diagram](images/diagram.png)
 
 
-
 ## How can leverage Clinfo.ai using OpenAI models?
 
 #### OPENAI API:
@@ -67,7 +66,7 @@ from config   import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 question = "What is the prevalence of COVID-19 in the United States?"
-clinfo   = ClinfoAI(openai_key=OPENAI_API_KEY, email= EMAIL)
+clinfo   = ClinfoAI(llm="gpt-3.5-turbo",openai_key=OPENAI_API_KEY, email= EMAIL)
 answer   = clinfo.forward(question=question)         
 ```
 
@@ -76,16 +75,29 @@ answer   = clinfo.forward(question=question)
 
 
 ## How can leverage Clinfo.ai using Open Source models via VLLM?
-First, use VLLM to create an API selecting the model you want to work with:
+Clinfo.ai has full integration with [vLLM](). We can use any open source LLM as a backbone following two simple steps:
+
+## Setting an API server
+First, we use vLLM to create an API selecting the model you want to work with:
+In the following example we use ```Qwen/Qwen2-beta-7B-Chat```
+
 ```bash
- python -m vllm.entrypoints.openai.api_server     --model Qwen/Qwen2-beta-7B-Chat
+ python -m vllm.entrypoints.openai.api_server --model Qwen/Qwen2-beta-7B-Chat
 ```
 
+### Switch the LLM model name to the selected model 
+Instantiate a clinfoAI object with the desired LLM :
 
 
+```python
+from  src.clinfoai.clinfoai import ClinfoAI
+from config   import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
+os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
-
-
+question = "What is the prevalence of COVID-19 in the United States?"
+clinfo   = ClinfoAI(llm="Qwen/Qwen2-beta-7B-Chat",openai_key=OPENAI_API_KEY, email= EMAIL)
+answer   = clinfo.forward(question=question)         
+```
 
 
 ### IMPORTANT:
