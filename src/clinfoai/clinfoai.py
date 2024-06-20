@@ -11,11 +11,13 @@ from  src.clinfoai.bm25                   import bm25_ranked
 
 class ClinfoAI:
     def __init__(self,
-        openai_key:str, 
-        email:str,
         architecture_path,
-        llm:str= "gpt-3.5-turbo",
-        engine:str="PubMed",
+        llm:str        = "gpt-3.5-turbo",
+        engine:str     = "PubMed",
+        openai_key:str = "YOUR API TOKEN", 
+        email:str      = "YOUR EMAIL",
+        
+      
         verbose:str=False) -> None:
 
         self.engine             = engine
