@@ -13,6 +13,16 @@
 
 If you would like to see some functionality or have a comment, open an issue on this repo, we will try to reply as soon as possible
 
+# 📖 Table of Contents
+1. [Intro](#intro)
+2. [Clinfo+Closed Source Models](#models_c)
+3. [Dataset + Tasks](#dataset)
+4. [Comparison to Prior Work](#prior_work)
+5. [Other](#other)
+6. [Citation](#citation)
+
+
+<a name="intro"/>
 
 Millions of medical research articles are published every year. On the other side, healthcare professionals and medical researchers are expected to stay abreast of the latest scientific discoveries pertinent to their daily practice. However, with limited time and a broad field to cover, keeping up-to-date can be a challenging task. Clinfo.AI **searches** and **synthesizes** medical literature tailored to a **specific** clinical **question** to provide an **answer** grounded on indexed literature. By leveraging a **chain of LLMS** clinfo.ai, can analyze the context of the inquiry to identify and present the most relevant articles pertinent to a scientific question.
 
@@ -57,6 +67,8 @@ Clinfo.AI is a RetA LLM system, it consists of a collection of four LLMs working
 4. Relevant articles are individually summarized by an LLM.
 5. Lasyty an LLM aggregates all summaries to provide an overview of all relevant articles.
 
+   
+<a name="models_c"/>
 ## How can leverage Clinfo.ai using OpenAI models?
 
 #### OPENAI API:
