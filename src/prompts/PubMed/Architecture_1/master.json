@@ -1,9 +1,0 @@
-{"$schema": 
-            {"pubmed_query_prompt":{"system":"task_1_sys.json","template":"task_1_prompt.json"},
-            "relevance_prompt":    {"system":"task_2_sys.json","template":"task_2_prompt.json"},
-            "summarization_prompt":{"system":"task_3_sys.json","template":"task_3_prompt.json"},
-            "synthesize_prompt":   {"system":"task_4_sys.json","template":"task_4_prompt.json"}
-             },
-
-"$order": ["pubmed_query_prompt","relevance_prompt","summarization_prompt","synthesize_prompt"]
-}

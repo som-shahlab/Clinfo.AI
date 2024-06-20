@@ -1,9 +1,0 @@
-{
-    "input_variables": ["question"],
-    "output_parser": null,
-    "partial_variables": {},
-    "template": "Generate a Semantic Scholar query that would find articles relevant to the following clinical question: \n---\n\"{question}\"\n---\n.Err on the side of retrieving more PubMed articles rather than less.\nOnly Use the most important Keywords withouth hyphens \nGive only the resulting Semantic Scholar query and nothing else.\n\n\n  ",
-    "template_format": "f-string",
-    "validate_template": true,
-    "_type": "prompt"
-}
