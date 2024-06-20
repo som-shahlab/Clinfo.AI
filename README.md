@@ -91,11 +91,10 @@ Instantiate a clinfoAI object with the desired LLM :
 
 ```python
 from  src.clinfoai.clinfoai import ClinfoAI
-from config   import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 question = "What is the prevalence of COVID-19 in the United States?"
-clinfo   = ClinfoAI(llm="Qwen/Qwen2-beta-7B-Chat",openai_key=OPENAI_API_KEY, email= EMAIL)
+clinfo   = ClinfoAI(llm="Qwen/Qwen2-beta-7B-Chat",openai_key="None")
 answer   = clinfo.forward(question=question)         
 ```
 
