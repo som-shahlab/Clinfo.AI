@@ -94,7 +94,7 @@ from  src.clinfoai.clinfoai import ClinfoAI
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 question = "What is the prevalence of COVID-19 in the United States?"
-clinfo   = ClinfoAI(llm="Qwen/Qwen2-beta-7B-Chat",openai_key="None")
+clinfo   = ClinfoAI(llm="Qwen/Qwen2-beta-7B-Chat")
 answer   = clinfo.forward(question=question)         
 ```
 
