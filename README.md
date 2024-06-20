@@ -62,7 +62,7 @@ EMAIL          = "YOUR EMAIL"      (optional)
 #### Using Clinfo.AI:
 
 ```python
-from clinfoAI import ClinfoAI
+from  src.clinfoai.clinfoai import ClinfoAI
 from config   import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
