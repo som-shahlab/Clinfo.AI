@@ -1,0 +1,14 @@
+gnore all .pyc files
+*.pyc
+
+# Ignore Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/02_ClinfoAI_pipeline-checkpoint.ipynb
+scripts/.ipynb_checkpoints/
+src/clinfoai/.ipynb_checkpoints/
+
+# Ignore Python cache directories
+__pycache__/
+src/__pycache__/
+src/clinfoai/__pycache__/
+src/clinfoai/utils/__pycache__/
