@@ -16,11 +16,10 @@ If you would like to see some functionality or have a comment, open an issue on 
 # 📖 Table of Contents
 1. [Intro](#intro)
 2. [Clinfo+Closed Source Models](#models_c)
-3. [Dataset + Tasks](#dataset)
-4. [Comparison to Prior Work](#prior_work)
-5. [Other](#other)
+3. [Clinfo+Open Source Models](#models_o)
 6. [Citation](#citation)
 
+#
 
 <a name="intro"/>
 
@@ -99,7 +98,7 @@ answer   = clinfo.forward(question=question)
 
 ```src/notebooks/01_UsingClinfoAI.ipynb``` has a quick run-through and explanation for  each individaul  clinfo.AI component.
 
-
+<a name="models_o"/>
 ## How can leverage Clinfo.ai using Open Source models via VLLM?
 Clinfo.ai has full integration with [vLLM](). We can use any open source LLM as a backbone following two simple steps:
 
@@ -129,7 +128,7 @@ answer   = clinfo.forward(question=question)
 While anyone can use Clinfo.AI, our goal is to augment medical experts not replace them. Read our disclaimer [disclaimer](https://clinfo-demo.herokuapp.com/termsandconditions) and DO NOT use clinfo.AI for medical diagnosis.
 
 
-
+<a name="citation"/>
 ### Cite
 If you use Clinfo.ai, please consider citing:
 
