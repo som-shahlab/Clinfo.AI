@@ -144,7 +144,6 @@ If you use Clinfo.ai, please consider citing:
   year={2023},
   organization={World Scientific}
 }
-
 ```
 
 
