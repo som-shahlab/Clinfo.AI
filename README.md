@@ -25,7 +25,7 @@ If you would like to see some functionality or have a comment, open an issue on 
 
 Millions of medical research articles are published every year. On the other side, healthcare professionals and medical researchers are expected to stay abreast of the latest scientific discoveries pertinent to their daily practice. However, with limited time and a broad field to cover, keeping up-to-date can be a challenging task. Clinfo.AI **searches** and **synthesizes** medical literature tailored to a **specific** clinical **question** to provide an **answer** grounded on indexed literature. By leveraging a **chain of LLMS** clinfo.ai, can analyze the context of the inquiry to identify and present the most relevant articles pertinent to a scientific question.
 
-## Comparison of Clinfo.AI vs ChatGPT:
+## Clinfo.AI vs ChatGPT:
 ![comparison](images/comparison.png)
 
 
