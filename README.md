@@ -68,6 +68,7 @@ Clinfo.AI is a RetA LLM system, it consists of a collection of four LLMs working
 
    
 <a name="models_c"/>
+
 ## How can leverage Clinfo.ai using OpenAI models?
 
 #### OPENAI API:
@@ -99,6 +100,7 @@ answer   = clinfo.forward(question=question)
 ```src/notebooks/01_UsingClinfoAI.ipynb``` has a quick run-through and explanation for  each individaul  clinfo.AI component.
 
 <a name="models_o"/>
+
 ## How can leverage Clinfo.ai using Open Source models via VLLM?
 Clinfo.ai has full integration with [vLLM](). We can use any open source LLM as a backbone following two simple steps:
 
@@ -129,6 +131,7 @@ While anyone can use Clinfo.AI, our goal is to augment medical experts not repla
 
 
 <a name="citation"/>
+
 ### Cite
 If you use Clinfo.ai, please consider citing:
 
