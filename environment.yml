@@ -157,6 +157,7 @@ dependencies:
       - filelock==3.15.1
       - fqdn==1.5.1
       - fsspec==2024.5.0
+      - google-generativeai
       - h11==0.14.0
       - httpcore==1.0.5
       - httptools==0.6.1

@@ -19,10 +19,12 @@ from vllm import LLM, SamplingParams
 
 import openai
 from   openai import OpenAI
+import google.generativeai as genai
 import pdb
 
 sys.path.append(str(Path(__file__).resolve().parent))
 from utils.prompt_compiler import PromptArchitecture, read_json
+genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
 
 def subtract_n_years(date_str:str,n:int=20) ->str:
     date     = datetime.strptime(date_str, "%Y/%m/%d")  # Parse the given date string
@@ -56,6 +58,13 @@ class VLM_LLM:
         output = self.llm.generate(prompt, self.sp) 
         return output[0].outputs[0].text
 
+class Gemini_LLM:
+    def __init__(self, model_name:str):
+        self.model = genai.GenerativeModel(model_name=model_name)
+    
+    def inference(self, prompt: list, generation_config=None) -> str:
+        response = self.model.generate_content(prompt, generation_config)
+        return response[0].text
 ############ OPP version ############################
 class PubMedNeuralRetriever:
     def __init__(self, 
@@ -104,7 +113,9 @@ class PubMedNeuralRetriever:
                   stop:str  = None,
                   delay:int = None):
 
-    
+        response = None  # Initialize response
+        query = None     # Initialize query
+        
         if "gpt" in self.model.lower():
             chat = ChatOpenAI(
                     temperature = temperature,
@@ -112,6 +123,18 @@ class PubMedNeuralRetriever:
                     max_tokens  = max_tokens,
                     n           = n,
                     request_timeout= self.time_out )
+            response = chat(prompt)
+            query:str = response.content
+            
+        elif "gemini" in self.model.lower():
+            generation_config = genai.GenerationConfig(
+                temperature=temperature,
+                max_output_tokens= max_tokens
+            )
+            chat = Gemini_LLM(model_name=model)
+            response = chat.inference([prompt], generation_config=generation_config)
+            query = response
+            
         else:
             chat = ChatOpenAI(
                     temperature = temperature,
@@ -121,14 +144,11 @@ class PubMedNeuralRetriever:
                     request_timeout = delay,
                     openai_api_key  = "EMPTY",
                     openai_api_base = self.api_base)
-
-
-        response = chat(prompt)
+            response = chat(prompt)
+            query:str = response.content   
 
         if self.delay:
             time.sleep(self.delay)
-
-        query:str = response.content   
         
         return query 
 
