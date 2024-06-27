@@ -3,11 +3,11 @@
  Welcome to the official repository  for **Clinfo.ai**: An Open-Source Retrieval-Augmented Large Language Model System for Answering Medical Questions using Scientific Literature.
 
 <p align="center">
-  <strong>Arxiv:</strong> <a href="https://arxiv.org/abs/2310.16146">Arxiv</a> 
+  <strong>Arxiv:</strong> <a href="https://arxiv.org/abs/2310.16146" target="_blank">Arxiv</a> 
   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-  <strong>Paper:</strong> <a href="https://www.worldscientific.com/doi/abs/10.1142/9789811286421_0002">PSB 2024</a> 
+  <strong>Paper:</strong> <a href="https://www.worldscientific.com/doi/abs/10.1142/9789811286421_0002" target="_blank">PSB 2024</a> 
   &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
-  <strong>Demo:</strong> <a href="https://clinfo-demo.herokuapp.com/login">Live App</a>
+  <strong>Demo:</strong> <a href="https://clinfo-demo.herokuapp.com/login" target="_blank">Live App</a>
 </p>
 
 
