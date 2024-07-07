@@ -11,18 +11,45 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 from Bio import Entrez
 from Bio.Entrez import efetch, esearch
 from langchain.prompts.chat import SystemMessagePromptTemplate
+from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate, ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_core.messages.system import SystemMessage
+from vllm import LLM, SamplingParams
+
+import openai
+from   openai import OpenAI
+import pdb
 
 import google.generativeai as genai
 
 sys.path.append(str(Path(__file__).resolve().parent))
 from utils.prompt_compiler import PromptArchitecture, read_json
+from dense_search import generate_paths,PubMedDenseSearch
 
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+
+def subtract_n_years(date_str:str,n:int=20) ->str:
+    date     = datetime.strptime(date_str, "%Y/%m/%d")  # Parse the given date string
+    new_year = date.year - n                            # Subtract n years
+
+    # Check if the resulting year is a leap year
+    is_leap_year = (new_year % 4 == 0 and new_year % 100 != 0) or new_year % 400 == 0
+
+    # Adjust the day value if necessary
+    new_day = date.day
+    if date.month == 2 and date.day == 29 and not is_leap_year:
+        new_day = 28
+
+    # Create a new date with the updated year, month, and day
+    new_date = datetime(new_year, date.month, new_day)
+
+    # Format the new date to the desired format (YYYY/MM/DD)
+    formatted_date = new_date.strftime("%Y/%m/%d")
+    return formatted_date
+
 
 class Gemini_LLM:
     def __init__(self, model_name: str):
+        genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
         self.model = genai.GenerativeModel(model_name=model_name)
 
     def inference(self, prompt: str, generation_config=None) -> str:
@@ -32,8 +59,16 @@ class Gemini_LLM:
         return response.candidates[0].content.parts[0].text
 
 class PubMedNeuralRetriever:
-    def __init__(self, architecture_path: str, temperature=0.5, model: str = "gemini-1.5-flash", 
-                 verbose: bool = True, debug: bool = False, open_ai_key: str = None, email: str = None, wait: int = 3):
+    def __init__(
+        self, 
+        architecture_path: str, 
+        temperature:float=0.5, 
+        model:str = "gpt-3.5-turbo", 
+        verbose: bool = True, 
+        debug: bool = False, 
+        open_ai_key: str = None, 
+        email: str = None, 
+        wait: int = 3):
 
         self.model = model
         self.verbose = verbose
@@ -45,14 +80,22 @@ class PubMedNeuralRetriever:
         self.time_out = 61
         self.delay = 2
         self.wait = wait
+        
 
         if self.verbose:
             self.architecture.print_architecture()
 
         if "gpt" in self.model.lower():
             openai.api_key = self.open_ai_key
-        else:
+
+        elif "gemini" in self.model.lower():
             print("Using Gemini model")
+
+        else:
+            print("Trying to init model via VLM")
+            self.api_base:str = api_base
+            self.time_out     = None
+            self.delay        = None
     
     def query_api(self, model: str, prompt: list, temperature: float, max_tokens: int = 1024, 
                   n: int = 1, stop: str = None, delay: int = None):
@@ -67,8 +110,10 @@ class PubMedNeuralRetriever:
                 max_tokens=max_tokens,
                 n=n,
                 request_timeout=self.time_out)
-            response = chat.generate(prompt)
+
+            response = chat(prompt)
             query = response.content
+            
         elif "gemini" in self.model.lower():
             generation_config = genai.GenerationConfig(
                 temperature=temperature,
@@ -79,6 +124,7 @@ class PubMedNeuralRetriever:
             chat = Gemini_LLM(model_name=model)
             response = chat.inference(prompt_str, generation_config=generation_config)
             query = response  # The response from Gemini is directly the text content
+            
         else:
             chat = ChatOpenAI(
                 temperature=temperature,
@@ -88,7 +134,7 @@ class PubMedNeuralRetriever:
                 request_timeout=delay,
                 openai_api_key="EMPTY",
                 openai_api_base=self.api_base)
-            response = chat.generate(prompt)
+            response = chat(prompt)
             query = response.content
 
         if self.delay:
@@ -126,8 +172,14 @@ class PubMedNeuralRetriever:
 
             return result
 
-    def search_pubmed(self, question: str, num_results: int = 10, num_query_attempts: int = 1, 
-                      verbose: bool = False, restriction_date = None) -> list[list[str], list[str]]:
+    def search_pubmed(
+        self, 
+        question: str, 
+        num_results: int = 10, 
+        num_query_attempts: int = 1, 
+        verbose: bool = False, 
+        restriction_date = None) -> list[list[str], list[str]]:
+        
         failure_cases = None
         Entrez.email = self.email     
         search_ids = set()
