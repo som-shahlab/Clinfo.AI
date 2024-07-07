@@ -63,7 +63,8 @@ class PubMedNeuralRetriever:
         self, 
         architecture_path: str, 
         temperature:float=0.5, 
-        model:str = "gpt-3.5-turbo", 
+        model:str = "gpt-3.5-turbo",
+        dense_search:bool=False,
         verbose: bool = True, 
         debug: bool = False, 
         open_ai_key: str = None, 
@@ -80,7 +81,16 @@ class PubMedNeuralRetriever:
         self.time_out = 61
         self.delay = 2
         self.wait = wait
+        self.dense_search = dense_search
         
+        if dense_search:
+            base_dir = Path("/pasteur", "data", "PubMed")
+            embeddings_paths, pmids_paths = generate_paths(base_dir,init_chunk=10,end_chunks=36)
+            print("Initalizing Index, this might take some time")
+            self.pubme_dense_retrivier = PubMedDenseSearch(
+                pubmed_embeds_files = embeddings_paths,
+                pmids_files = pmids_paths,
+                index_file  = "/pasteur/data/PubMed/pubmed.index")
 
         if self.verbose:
             self.architecture.print_architecture()
@@ -184,37 +194,50 @@ class PubMedNeuralRetriever:
         Entrez.email = self.email     
         search_ids = set()
         search_queries = set()
-        for _ in range(num_query_attempts):
-            pubmed_query = self.generate_pubmed_query(question, failure_cases=failure_cases)
 
-            if restriction_date != None:
-                if self.verbose:
-                    print(f"Date Restricted to : {restriction_date}")
-                lower_limit = subtract_n_years(restriction_date)
-                pubmed_query = pubmed_query + f" AND {lower_limit}:{restriction_date}[dp]"
+      
+        if self.dense_search:
+            search_ids = []
+            search_queries = question
+            results = self.pubme_dense_retrivier.search([question],k=num_results)
+            for result in results:
+                for res in result['Results']:
+                    search_ids.append(res['PMID'])
 
-            if verbose:
-                print("*" * 10)
-                print(f"Generated pubmed query: {pubmed_query}\n")
+    
 
-            search_queries.add(pubmed_query)
-            search_results = esearch(db="pubmed", term=pubmed_query, retmax=num_results, sort="relevance")
-            try:
-                retrieved_ids = Entrez.read(search_results)["IdList"]
-                search_ids = search_ids.union(retrieved_ids)
+        elif self.dense_search == False:
+            for _ in range(num_query_attempts):
+                pubmed_query = self.generate_pubmed_query(question, failure_cases=failure_cases)
 
-                if len(retrieved_ids) == 0:
-                    failure_cases = pubmed_query
+                if restriction_date != None:
+                    if self.verbose:
+                        print(f"Date Restricted to : {restriction_date}")
+                    lower_limit = subtract_n_years(restriction_date)
+                    pubmed_query = pubmed_query + f" AND {lower_limit}:{restriction_date}[dp]"
 
                 if verbose:
-                    print(f"Retrieved {len(retrieved_ids)} IDs")
-                    print(retrieved_ids)
+                    print("*" * 10)
+                    print(f"Generated pubmed query: {pubmed_query}\n")
 
-            except:
-                if verbose:
-                    failure_cases = pubmed_query
-                    print(search_results)
-                    print("No IDs retrieved")
+                search_queries.add(pubmed_query)
+                search_results = esearch(db="pubmed", term=pubmed_query, retmax=num_results, sort="relevance")
+                try:
+                    retrieved_ids = Entrez.read(search_results)["IdList"]
+                    search_ids = search_ids.union(retrieved_ids)
+
+                    if len(retrieved_ids) == 0:
+                        failure_cases = pubmed_query
+
+                    if verbose:
+                        print(f"Retrieved {len(retrieved_ids)} IDs")
+                        print(retrieved_ids)
+
+                except:
+                    if verbose:
+                        failure_cases = pubmed_query
+                        print(search_results)
+                        print("No IDs retrieved")
 
             if verbose:
                 print(f"Search IDs: {search_ids}")

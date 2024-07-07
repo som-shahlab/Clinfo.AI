@@ -16,8 +16,7 @@ class ClinfoAI:
         engine:str     = "PubMed",
         openai_key:str = "YOUR API TOKEN", 
         email:str      = "YOUR EMAIL",
-        
-      
+        dense_search:bool=False,
         verbose:str=False) -> None:
 
         self.engine             = engine
@@ -26,13 +25,16 @@ class ClinfoAI:
         self.openai_key         = openai_key
         self.verbose            = verbose
         self.architecture_path  = architecture_path
+        self.dense_search        = dense_search
         self.init_engine()
+
     def init_engine(self):
         if self.engine  == "PubMed":
         
             self.NEURAL_RETRIVER   = PubMedNeuralRetriever(
                                         architecture_path=self.architecture_path,
                                         model       = self.llm,
+                                        dense_search = self.dense_search  
                                         verbose     = self.verbose ,
                                         debug       = False,
                                         open_ai_key = self.openai_key,
