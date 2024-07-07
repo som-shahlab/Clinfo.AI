@@ -19,6 +19,8 @@ If you would like to see some functionality or have a comment, open an issue on 
 3. [Clinfo+Open Source Models](#models_o)
 6. [Citation](#citation)
 
+# Updates
+```Jul 05, 2024 Update```: Added Support for Google's API models
 #
 
 <a name="intro"/>
