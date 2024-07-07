@@ -246,3 +246,5 @@ xformers==0.0.26.post1
 xxhash==3.4.1
 yarl==1.9.3
 zipp==3.17.0
+google-generativeai
+faiss-cpu
