@@ -34,7 +34,7 @@ class ClinfoAI:
             self.NEURAL_RETRIVER   = PubMedNeuralRetriever(
                                         architecture_path=self.architecture_path,
                                         model       = self.llm,
-                                        dense_search = self.dense_search  
+                                        dense_search = self.dense_search,
                                         verbose     = self.verbose ,
                                         debug       = False,
                                         open_ai_key = self.openai_key,
