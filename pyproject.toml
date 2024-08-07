@@ -17,6 +17,11 @@ langchain = "^0.2.12"
 langchain-community = "^0.2.11"
 google-generativeai = "^0.7.2"
 faiss-cpu = "^1.8.0.post1"
+streamlit = "^1.37.1"
+watchdog = "^4.0.1"
+openai = "^1.40.0"
+torch = "^2.4.0"
+transformers = "^4.44.0"
 
 
 [tool.poetry.group.dev.dependencies]
