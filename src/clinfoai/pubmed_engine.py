@@ -14,7 +14,7 @@ from langchain.prompts.chat import SystemMessagePromptTemplate
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate, ChatPromptTemplate, HumanMessagePromptTemplate
 from langchain_core.messages.system import SystemMessage
-from vllm import LLM, SamplingParams
+# from vllm import LLM, SamplingParams
 
 import openai
 from   openai import OpenAI

@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "clinfo-ai"
+version = "0.1.0"
+description = ""
+authors = ["Hồ Lê Minh Thạch <thach.holeminh@gmail.com>"]
+readme = "README.md"
+packages = [{include = "clinfo"}]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+aiohttp = "3.9.5"
+datasets = "^2.20.0"
+pathlib = "^1.0.1"
+config = "^0.5.1"
+bio = "^1.7.1"
+langchain = "^0.2.12"
+langchain-community = "^0.2.11"
+google-generativeai = "^0.7.2"
+faiss-cpu = "^1.8.0.post1"
+
+
+[tool.poetry.group.dev.dependencies]
+jupyter = "^1.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
