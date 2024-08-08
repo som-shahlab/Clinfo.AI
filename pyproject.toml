@@ -5,6 +5,7 @@ description = ""
 authors = ["Hồ Lê Minh Thạch <thach.holeminh@gmail.com>"]
 readme = "README.md"
 packages = [{include = "clinfo"}]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
@@ -17,6 +18,7 @@ langchain = "^0.2.12"
 langchain-community = "^0.2.11"
 google-generativeai = "^0.7.2"
 faiss-cpu = "^1.8.0.post1"
+biopython = "1.81"
 streamlit = "^1.37.1"
 watchdog = "^4.0.1"
 openai = "^1.40.0"

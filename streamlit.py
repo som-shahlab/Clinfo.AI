@@ -91,11 +91,17 @@ def main():
         st.success("Search completed!")
 
         # Display sample result (you would replace this with actual search results)
+        translate_synthesis = nrpm.translate_en_to_vn('I am Vietnamese!')
+        st.markdown(translate_synthesis, unsafe_allow_html=True)
         st.markdown(highlight_answer(synthesis), unsafe_allow_html=True)
 
         for article in article_summaries:
             with st.expander(f"[{article["title"]}]({article["url"]})"):
-                st.markdown(highlight_summary(article["summary"]))
+                # translate_article = nrpm.translate_en_to_vn(
+                #     highlight_summary(article["summary"])
+                # )
+                # st.markdown(translate_article, unsafe_allow_html=True)
+                st.markdown(highlight_summary(article["summary"]), unsafe_allow_html=True)
 
 
 if __name__ == "__main__":
