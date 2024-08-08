@@ -5,18 +5,23 @@ description = ""
 authors = ["Hồ Lê Minh Thạch <thach.holeminh@gmail.com>"]
 readme = "README.md"
 packages = [{include = "clinfo"}]
+package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11.7"
 aiohttp = "3.9.5"
 datasets = "^2.20.0"
 pathlib = "^1.0.1"
-config = "^0.5.1"
 bio = "^1.7.1"
 langchain = "^0.2.12"
-langchain-community = "^0.2.11"
+langchain-community = "^0.2.11 "
 google-generativeai = "^0.7.2"
 faiss-cpu = "^1.8.0.post1"
+debugpy = "^1.8.5"
+openai = "^1.40.0"
+torch = "^2.4.0"
+transformers = "4.41.2"
+pandas = "^2.2.2"
 
 
 [tool.poetry.group.dev.dependencies]
