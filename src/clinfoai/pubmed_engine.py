@@ -1,40 +1,80 @@
+import logging
 import os
+import pdb
 import re
-import sys
 import string
+import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from datetime import datetime, timedelta
 from pathlib import Path
 from typing import List
-from datetime import datetime, timedelta
-from concurrent.futures import ThreadPoolExecutor, as_completed
-
-from Bio import Entrez
-from Bio.Entrez import efetch, esearch
-from langchain.prompts.chat import SystemMessagePromptTemplate
-from langchain.chat_models import ChatOpenAI
-from langchain.prompts import (
-    PromptTemplate,
-    ChatPromptTemplate,
-    HumanMessagePromptTemplate,
-)
-from langchain_core.messages.system import SystemMessage
-
-# from vllm import LLM, SamplingParams
-
-import openai
-from openai import OpenAI
-import pdb
 
 import google.generativeai as genai
 
+# from vllm import LLM, SamplingParams
+import openai
+import torch
+from Bio import Entrez
+from Bio.Entrez import efetch, esearch
+from langchain.chat_models import ChatOpenAI
+from langchain.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    PromptTemplate,
+)
+from langchain.prompts.chat import SystemMessagePromptTemplate
+from langchain_core.messages.system import SystemMessage
+from openai import OpenAI
+from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
 sys.path.append(str(Path(__file__).resolve().parent))
+from dense_search import PubMedDenseSearch, generate_paths
 from translator import TranslationEngine
 from utils.prompt_compiler import PromptArchitecture, read_json
-from dense_search import generate_paths, PubMedDenseSearch
 
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
-from transformers import pipeline, TranslationPipeline
-from torch import device
+logger = logging.getLogger(__name__)
+reranking_model = os.getenv("RERANKING_MODEL", "ncbi/MedCPT-Cross-Encoder")
+print(f"Using reranking model: {reranking_model}")
+
+RELEVANT_THRESHOLD = 0.5
+
+
+# Moved here cuz somehow import errs :(
+class Reranker:
+    def __init__(self, model_name: str = "ncbi/MedCPT-Cross-Encoder"):
+        self.model_name = model_name
+        self.model = AutoModelForSequenceClassification.from_pretrained(model_name)
+        print(f"Loaded model: {model_name}")
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        print(f"Loaded tokenizer: {model_name}")
+        print(f"Threshold: {RELEVANT_THRESHOLD}")
+
+    def is_relevant(self, query: str, chunk: str) -> bool:
+        # combine query article into pairs
+        pairs = [[query, chunk]]
+
+        # infer scores
+        with torch.no_grad():
+            encoded = self.tokenizer(
+                pairs,
+                truncation=True,
+                padding=True,
+                return_tensors="pt",
+                max_length=512,
+            )
+
+            # tensor([  6.9363,  -8.2063,  -8.7692, -12.3450, -10.4416, -15.8475])
+            logits = self.model(**encoded).logits.squeeze(dim=1)
+
+            # Convert to 0-1 range through sigmoid
+            scores = torch.sigmoid(logits).tolist()
+            logger.info(f"{logits=}\n{scores=}")
+
+        return scores[0] > RELEVANT_THRESHOLD
+
+
+reranker = Reranker()
 
 
 def subtract_n_years(date_str: str, n: int = 20) -> str:
@@ -90,7 +130,6 @@ class PubMedNeuralRetriever:
         email: str = None,
         wait: int = 3,
     ):
-
         self.model = model
         self.verbose = verbose
         self.architecture = PromptArchitecture(
@@ -142,7 +181,6 @@ class PubMedNeuralRetriever:
         stop: str = None,
         delay: int = None,
     ):
-
         response = None  # Initialize response
         query = None  # Initialize query
 
@@ -244,7 +282,6 @@ class PubMedNeuralRetriever:
         verbose: bool = False,
         restriction_date=None,
     ) -> list[list[str], list[str]]:
-
         failure_cases = None
         Entrez.email = self.email
         search_ids = set()
@@ -365,6 +402,9 @@ class PubMedNeuralRetriever:
 
             first_word = result.split()[0].strip(string.punctuation).lower()
             return first_word not in {"no", "n"}
+
+    def is_article_relevant_reranker(self, article_text: str, question: str):
+        return reranker.is_relevant(question, article_text)
 
     def construct_citation(self, article):
         if (
@@ -512,7 +552,8 @@ class PubMedNeuralRetriever:
         try:
             abstract = article["MedlineCitation"]["Article"]["Abstract"]["AbstractText"]
             abstract = self.reconstruct_abstract(abstract)
-            article_is_relevant = self.is_article_relevant(abstract, question)
+            # article_is_relevant = self.is_article_relevant(abstract, question)
+            article_is_relevant = self.is_article_relevant_reranker(abstract, question)
             citation = self.construct_citation(article)
             if self.verbose:
                 print(citation)
@@ -683,6 +724,7 @@ class PubMedNeuralRetriever:
         t = TranslationEngine(key=os.environ["GOOGLE_API_KEY"])
         res = t.translateToVi(text)
         return res
+
     # pipe: TranslationPipeline = pipeline(task="translation", model="VietAI/envit5-translation", device=1)
     # print(text.splitlines())
     # res = pipe(text.split("."), max_length=400)

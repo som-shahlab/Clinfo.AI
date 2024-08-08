@@ -1,5 +1,4 @@
 import os
-from ai import search_articles
 import streamlit as st
 
 from src.clinfoai.pubmed_engine import PubMedNeuralRetriever
@@ -22,6 +21,18 @@ nrpm = PubMedNeuralRetriever(
     open_ai_key=OPENAI_API_KEY,
     email=EMAIL,
 )
+
+
+def search_articles(question: str):
+    ### STEP 1: Search PubMed ###
+    pubmed_queries, article_ids = nrpm.search_pubmed(
+        question, num_results=10, num_query_attempts=1
+    )
+
+    ### STEP 2: Fetch article data ###
+    articles = nrpm.fetch_article_data(article_ids)
+
+    return articles
 
 
 def highlight_answer(summary: str) -> str:
