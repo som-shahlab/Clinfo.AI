@@ -28,10 +28,13 @@ import pdb
 import google.generativeai as genai
 
 sys.path.append(str(Path(__file__).resolve().parent))
+from translator import TranslationEngine
 from utils.prompt_compiler import PromptArchitecture, read_json
 from dense_search import generate_paths, PubMedDenseSearch
 
 from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import pipeline, TranslationPipeline
+from torch import device
 
 
 def subtract_n_years(date_str: str, n: int = 20) -> str:
@@ -128,10 +131,6 @@ class PubMedNeuralRetriever:
             self.api_base: str = api_base
             self.time_out = None
             self.delay = None
-
-        model_name = "VietAI/envit5-translation"
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.translate_model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
 
     def query_api(
         self,
@@ -681,20 +680,21 @@ class PubMedNeuralRetriever:
             return result
 
     def translate_en_to_vn(self, text: str) -> str:
-        outputs = self.translate_model.generate(
-            self.tokenizer(
-                f"en: {text}", return_tensors="pt", padding=True
-            ).input_ids.to("cpu"),
-            max_length=512,
-        )
-        return self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+        t = TranslationEngine(key=os.environ["GOOGLE_API_KEY"])
+        res = t.translateToVi(text)
+        return res
+    # pipe: TranslationPipeline = pipeline(task="translation", model="VietAI/envit5-translation", device=1)
+    # print(text.splitlines())
+    # res = pipe(text.split("."), max_length=400)
+    # print(res)
+    # return [r["translation_text"] for r in res]
 
     def translate_vn_to_en(self, text: str) -> str:
         outputs = self.translate_model.generate(
             self.tokenizer(
                 f"en: {text}", return_tensors="pt", padding=True
             ).input_ids.to("cpu"),
-            max_length=512,
+            max_length=256,
         )
         return self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
 

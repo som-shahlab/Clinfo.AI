@@ -2,15 +2,13 @@ import os
 from ai import search_articles
 import streamlit as st
 
-from config import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
-
 from src.clinfoai.pubmed_engine import PubMedNeuralRetriever
 
 # Make Sure you followed at least step 1-2 before running this cell.
-from config import OPENAI_API_KEY, NCBI_API_KEY, EMAIL
+from config import OPENAI_API_KEY, NCBI_API_KEY, EMAIL, GOOGLE_API_KEY
 
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-
+os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 PROMPS_PATH = os.path.join(
     ".", "src", "clinfoai", "prompts", "PubMed", "Architecture_1", "master.json"
 )
@@ -91,7 +89,7 @@ def main():
         st.success("Search completed!")
 
         # Display sample result (you would replace this with actual search results)
-        translate_synthesis = nrpm.translate_en_to_vn('I am Vietnamese!')
+        translate_synthesis = nrpm.translate_en_to_vn(synthesis)
         st.markdown(translate_synthesis, unsafe_allow_html=True)
         st.markdown(highlight_answer(synthesis), unsafe_allow_html=True)
 
