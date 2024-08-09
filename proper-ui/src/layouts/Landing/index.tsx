@@ -1,9 +1,5 @@
-import React from 'react'
-
 const Landing = () => {
-  return (
-    <div>Landing</div>
-  )
-}
+  return <></>;
+};
 
-export default Landing
+export default Landing;

@@ -3,16 +3,19 @@ import { ThemeProvider } from "./components/theme-provider";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Button } from "./components/ui/button";
 import { ModeToggle } from "./components/mode-toggle";
+import Landing from "./layouts/Landing";
+import Root from "./layouts/Root";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: (
-      <div>
-        <ModeToggle />
-        <Button>Hello world</Button>
-      </div>
-    ),
+    element: <Root />,
+    children: [
+      {
+        path: "/",
+        element: <Landing />,
+      },
+    ],
   },
 ]);
 
