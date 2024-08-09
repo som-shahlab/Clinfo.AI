@@ -25,6 +25,9 @@ watchdog = "^4.0.1"
 openai = "^1.40.0"
 torch = "^2.4.0"
 transformers = "^4.44.0"
+uvicorn = "^0.30.5"
+fastapi = "^0.112.0"
+python-dotenv = "^1.0.1"
 
 
 [tool.poetry.group.dev.dependencies]

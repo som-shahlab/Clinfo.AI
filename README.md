@@ -1,3 +1,8 @@
+To run backend server:
+```shell
+uvicorn app:app --reload --host 0.0.0.0 --port 8001 --log-config=log_conf.yaml --use-colors
+```
+ 
  ![logo](images/clinfo_ai.png)
  
  Welcome to the official repository  for **Clinfo.ai**: An Open-Source Retrieval-Augmented Large Language Model System for Answering Medical Questions using Scientific Literature.
